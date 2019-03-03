@@ -1,0 +1,133 @@
+<Configuration>
+	<ViewDefinitions>
+		<View>
+			<Name>brshSysInfo.DriveInfo</Name>
+			<ViewSelectedBy>
+				<TypeName>brshSysInfo.DriveInfo</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Label>Drive</Label>
+						<Width>5</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Total</Label>
+						<Width>8</Width>
+						<Alignment>Right</Alignment>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>FreeSpace</Label>
+						<Width>10</Width>
+						<Alignment>Right</Alignment>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>UsedSpace</Label>
+						<Width>10</Width>
+						<Alignment>Right</Alignment>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Free%</Label>
+						<Width>6</Width>
+						<Alignment>Right</Alignment>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Used%</Label>
+						<Width>6</Width>
+						<Alignment>Right</Alignment>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>FileSystem</Label>
+						<Width>12</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>IsDirty</Label>
+						<Width>8</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>VolumeName</Label>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Drive</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Size</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>FreeSpace</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>UsedSpace</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									$Escape = "$([char]27)"
+									$Yellow = "$Escape[1;33m"
+									$Green = "$Escape[0;32m"
+									$Red = "$Escape[0;91m"
+									$Cyan = "$Escape[2;96m"
+									$Off = "$Escape[0m"
+									$color = $Yellow
+									if ($_.FreePercent -lt 21) {
+										$color = $Red
+									} elseif ($_.FreePercent -lt 41) {
+										$color = $Yellow
+									} else {
+										$color = $Green
+									}
+									"$Color{0}$Off" -f $_.FreePercent
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									$Escape = "$([char]27)"
+									$Yellow = "$Escape[1;33m"
+									$Green = "$Escape[0;32m"
+									$Red = "$Escape[0;91m"
+									$Cyan = "$Escape[2;96m"
+									$Off = "$Escape[0m"
+									$color = $Yellow
+									if ($_.FreePercent -lt 21) {
+										$color = $Red
+									} elseif ($_.FreePercent -lt 41) {
+										$color = $Yellow
+									} else {
+										$color = $Green
+									}
+									"$Color{0}$Off" -f $_.UsedPercent
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>FileSystem</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									$Escape = "$([char]27)"
+									$Yellow = "$Escape[1;33m"
+									$Green = "$Escape[0;32m"
+									$Red = "$Escape[0;91m"
+									$Cyan = "$Escape[2;96m"
+									$Off = "$Escape[0m"
+									$color = $Yellow
+									if ($_.IsDirty) {
+										$color = $Yellow
+									} else {
+										$color = $Green
+									}
+									"$Color{0}$Off" -f $_.IsDirty
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>VolumeName</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+	</ViewDefinitions>
+</Configuration>
