@@ -41,7 +41,7 @@
 			#$_.Name
 			if ($Formats -contains $Format) {
 				Write-Verbose "Found: $Format"
-				Write-Verbose "Trying: $_.Name"
+				Write-Verbose "Trying: $($_.Name)"
 				$Response = & $_.Name
 				if ($Response) {
 					$Response | & $($format) -BGInfo:$BGInfo

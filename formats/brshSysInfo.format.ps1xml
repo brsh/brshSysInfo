@@ -129,5 +129,65 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+
+
+
+
+		<View>
+			<Name>brshSysInfo.SystemUserEventInfo</Name>
+			<ViewSelectedBy>
+				<TypeName>brshSysInfo.SystemUserEventInfo</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Label>Time</Label>
+						<Width>23</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>EventType</Label>
+						<Width>25</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>User</Label>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Time</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									$Escape = "$([char]27)"
+									$Yellow = "$Escape[1;33m"
+									$Green = "$Escape[0;32m"
+									$Red = "$Escape[0;91m"
+									$Cyan = "$Escape[2;96m"
+									$Off = "$Escape[0m"
+									$color = $Yellow
+									if ($_.Level -eq 'Warning') {
+										$color = $Yellow
+									} elseif ($_.Level -eq 'Information') {
+										$color = $Green
+									} else {
+										$color = $Red
+									}
+									"$Color{0}$Off" -f $_.EventType
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>User</PropertyName>
+							</TableColumnItem>
+
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+
+
+
 	</ViewDefinitions>
 </Configuration>

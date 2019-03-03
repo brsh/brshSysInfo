@@ -75,8 +75,8 @@ function Get-siSystemUserEventInfo {
 								$logvalue = 'n/a'
 							}
 						}
-						New-Object PSObject -Property @{
-							Time      = $Log.TimeCreated
+						$out = New-Object PSObject -Property @{
+							Time      = $Log.TimeCreated.ToString('MM/dd/yyyy hh:mm:ss tt')
 							EventID   = $Log.ID
 							EventType = $Type
 							User      = $logvalue
@@ -85,8 +85,10 @@ function Get-siSystemUserEventInfo {
 							Level     = $Log.LevelDisplayName
 							Provider  = $Log.ProviderName
 						}
+						$out.PSObject.TypeNames.Insert(0, 'brshSysInfo.SystemUserEventInfo')
+						$out
 					}
-				}) | Sort-Object time -Descending
+				}) # | Sort-Object time -Descending
 		} else {
 			Write-Host "Problem with $Computer."
 			Write-Host "If you see a 'Network Path not found' error, try starting the Remote Registry service on that computer."
