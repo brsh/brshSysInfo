@@ -1,6 +1,9 @@
 ﻿param (
 	[switch] $Quiet = $False
 )
+
+### https://github.com/brsh/brshSysInfo
+
 #region Private Variables
 # Current script path
 [string] $ScriptPath = Split-Path (get-variable myinvocation -scope script).value.Mycommand.Definition -Parent
