@@ -31,7 +31,7 @@ function Get-siUptime {
     .OUTPUTS
     TimeSpan
 #>
-	New-TimeSpan -start (Get-LastBootTime) -end $(get-date)
+	New-TimeSpan -start (Get-siLastBootTime) -end $(get-date)
 }
 
 function Get-siBattery {
@@ -75,7 +75,7 @@ function Get-siBattery {
 		[Parameter(Position = 0)]
 		[string] $hostname = "localhost"
 	)
-	Get-WmiObject -Class win32_Battery -ComputerName $hostname | ForEach-Object {
+	Get-CimInstance -Class win32_Battery -ComputerName $hostname | ForEach-Object {
 		switch ($_.BatteryStatus) {
 			1 { $textstat = "Discharging"; $charstat = "--"; break }
 			2 { $textstat = "On AC"; $charstat = "AC"; break } #Actually AC
@@ -286,7 +286,7 @@ Function Get-siDaylightSavingsTime {
         None
 
     #>
-	$TimeZone = Get-WmiObject -Class Win32_TimeZone
+	$TimeZone = Get-CimInstance -Class Win32_TimeZone
 	[string] $Whatis = ""
 	[bool] $DSTActive = $false
 
