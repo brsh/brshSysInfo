@@ -41,6 +41,10 @@
 						<Width>12</Width>
 					</TableColumnHeader>
 					<TableColumnHeader>
+						<Label>DriveType</Label>
+						<Width>10</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
 						<Label>IsDirty</Label>
 						<Width>8</Width>
 					</TableColumnHeader>
@@ -112,6 +116,9 @@
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>FileSystem</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>DriveType</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
 								<ScriptBlock>
