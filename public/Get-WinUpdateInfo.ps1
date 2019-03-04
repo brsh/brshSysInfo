@@ -123,9 +123,10 @@ Runs the script but outputs as text, not the object
 
 		Write-Verbose "... $($_.Exception.Message)"
 		Write-Verbose "... See the Event Log for details (source WinUpdateInfo, event ID 9999)"
-
-		New-EventLog -LogName Application -Source "WinUpdateInfo" -ErrorAction SilentlyContinue
-		Write-EventLog -LogName "Application" -Source "WinUpdateInfo" -eventid 9999 -EntryType Error -Message $Message -ErrorAction SilentlyContinue
+		if ($PSVersionTable.PSVersion.Major -lt 6) {
+			New-EventLog -LogName Application -Source "WinUpdateInfo" -ErrorAction SilentlyContinue
+			Write-EventLog -LogName "Application" -Source "WinUpdateInfo" -eventid 9999 -EntryType Error -Message $Message -ErrorAction SilentlyContinue
+		}
 	}
 
 	$out = [PSCustomObject] @{
