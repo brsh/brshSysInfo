@@ -1,6 +1,6 @@
 # brshSysInfo - Powershell System Information module
 
-All the system information that's fit to print (although some only work with Admin rights - cuz... reasons)
+All the system information that's fit to print (although some only work with Admin rights - cuz... reasons). Powershell for Windows and PSCore compatible.
 
 The big bright shiny function from this module is the SystemReport - via `get-siSystemReport`, but the info is available in bite sized (mostly) psobject'ed morsels in the following functions:
 
