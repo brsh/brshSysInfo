@@ -45,6 +45,15 @@
 						<Width>8</Width>
 					</TableColumnHeader>
 					<TableColumnHeader>
+						<Label>Compressed</Label>
+						<Width>10</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>BlockSize</Label>
+						<Width>10</Width>
+						<Alignment>Right</Alignment>
+					</TableColumnHeader>
+					<TableColumnHeader>
 						<Label>VolumeName</Label>
 					</TableColumnHeader>
 				</TableHeaders>
@@ -120,6 +129,26 @@
 									}
 									"$Color{0}$Off" -f $_.IsDirty
 								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									$Escape = "$([char]27)"
+									$Yellow = "$Escape[1;33m"
+									$Green = "$Escape[0;32m"
+									$Red = "$Escape[0;91m"
+									$Cyan = "$Escape[2;96m"
+									$Off = "$Escape[0m"
+									$color = $Yellow
+									if ($_.Compressed) {
+										$color = $Yellow
+									} else {
+										$color = $Green
+									}
+									"$Color{0}$Off" -f $_.Compressed
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>BlockSize</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>VolumeName</PropertyName>

@@ -28,21 +28,25 @@
 		[int] $Size,
 		[Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
 		[string] $FileSystem,
+		[Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+		[string] $BlockSize,
+		[Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+		[string] $PageFile,
 		[Parameter(Mandatory = $false)]
 		[switch] $BGInfo = $false
 	)
 
 	BEGIN {
 		[int] $i = 0
-		$columns = "{0,-2}   {1,4} {2,9} {3,9}   {4,-7}  {5}"
-		Write-Host "Drive Info:`t$($columns -f '', 'Free', 'Free', 'Total', 'Format', 'Label')"
+		$columns = "{0,-2}   {1,4} {2,9} {3,9}  {4,-7} {5,9}  {6,-8}  {7}"
+		Write-Host "Drive Info:`t$($columns -f '', 'Free', 'Free', 'Total', 'Format', 'BlockSize', 'PageFile', 'Label')"
 		[string] $tab = "`t`t"
 		if ($BGInfo) { $tab = "`t"}
 	}
 
 	PROCESS {
 		[string] $Build = ""
-		$Build = $tab + $columns -f $Drive, "$("{0:N0}" -f $FreePercent)%", "$("{0:N0}" -f $FreeSpace)GB", "$(("{0:N0}" -f $Size))GB", $FileSystem, $VolumeName
+		$Build = $tab + $columns -f $Drive, "$("{0:N0}" -f $FreePercent)%", "$("{0:N0}" -f $FreeSpace)GB", "$(("{0:N0}" -f $Size))GB", $FileSystem, $BlockSize, $PageFile, $VolumeName
 		Write-Host $Build
 	}
 

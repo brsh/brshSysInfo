@@ -1,7 +1,7 @@
 function Get-siWinUpdateInfo {
 	<#
 .SYNOPSIS
-Get Info about pending Windows Updates on the Local Computer
+Pulls Info about pending Windows Updates on the Local Computer
 
 .DESCRIPTION
 This will pull

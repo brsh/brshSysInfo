@@ -31,7 +31,7 @@ Get-ChildItem $ScriptPath/public -Recurse -Filter "*.ps1" -File | ForEach-Object
 		Export-ModuleMember $_.Name
 		$script:showhelp += $_.Name
 		if ($_.Name -match 'Info$') {
-			$script:IncludeInSystemReport.Add($_.Name, @{Enabled = $true; Position = 50})
+			$script:IncludeInSystemReport.Add($_.Name, @{Enabled = ''; Position = 50})
 		}
 	}
 }
@@ -46,7 +46,17 @@ $script:IncludeInSystemReport.Remove('Get-siSystemReport')
 $script:IncludeInSystemReport.Remove('Get-SystemReportSettings')
 $script:IncludeInSystemReport.Remove('Get-siSysInfoHelp')
 
-#Specifically set items NOT to be in the System Report
+#Specifically set items for the System Report
+$script:IncludeInSystemReport['Get-siOSInfo'].Enabled = $true
+$script:IncludeInSystemReport['Get-siDriveInfo'].Enabled = $true
+$script:IncludeInSystemReport['Get-siNetworkInfo'].Enabled = $true
+$script:IncludeInSystemReport['Get-siServerRoleInfo'].Enabled = $true
+$script:IncludeInSystemReport['Get-siAWSInfo'].Enabled = $true
+$script:IncludeInSystemReport['Get-siIISBindingInfo'].Enabled = $true
+$script:IncludeInSystemReport['Get-siSQLVersionInfo'].Enabled = $true
+$script:IncludeInSystemReport['Get-siUserSessionInfo'].Enabled = $true
+$script:IncludeInSystemReport['Get-siSystemUserEventInfo'].Enabled = $true
+
 $script:IncludeInSystemReport['Get-siWinUpdateInfo'].Enabled = $false
 
 #Put some items first
