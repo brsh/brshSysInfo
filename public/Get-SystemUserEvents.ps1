@@ -34,15 +34,13 @@ function Get-siSystemUserEventInfo {
 	$filterXml = "
         <QueryList>
             <Query Id='0' Path='System'>
-            <Select Path='System'>
-
-				*[System[Provider[
-					@Name='user32' or
-					@Name='eventlog' or
-					@Name = 'Microsoft-Windows-Winlogon' or
-					@Name='Microsoft-Windows-Kernel-Power'
-				]
-				and
+				<Select Path='System'>*[System[Provider[
+						@Name='eventlog' or
+						@Name='Microsoft-Windows-Kernel-Power' or
+						@Name='User32' or
+						@Name='Microsoft-Windows-Winlogon'
+					]
+					and
 			        TimeCreated[@SystemTime >= '$(get-date (get-date).AddDays(-$Days) -UFormat '%Y-%m-%dT%H:%M:%S.000Z')']
                 ]]
             </Select>
