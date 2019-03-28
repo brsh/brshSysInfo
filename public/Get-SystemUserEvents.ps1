@@ -37,6 +37,7 @@ function Get-siSystemUserEventInfo {
             <Select Path='System'>
 
 				*[System[Provider[
+					@Name='user32' or
 					@Name='eventlog' or
 					@Name = 'Microsoft-Windows-Winlogon' or
 					@Name='Microsoft-Windows-Kernel-Power'
@@ -60,6 +61,7 @@ function Get-siSystemUserEventInfo {
 						6008 {$Type = 'Unexpected Shutdown'; break}
 						6006 {$Type = 'Clean Shutdown'; break}
 						6005 {$Type = 'Clean Startup'; break}
+						1074 {$Type = 'Shutdown Initiated'; break}
 						#107 { $Type = 'Resume'; break }
 						42 {$Type = 'Sleep'; break}
 						41 {$Type = 'Boot from Unexpected Shutdown'; break}
