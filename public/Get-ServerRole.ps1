@@ -105,7 +105,7 @@ function Get-siServerRoleInfo {
 					$SubItem = ""
 					if ($IsFederation) { $SubItem = "ADFS" }
 					if ($IsProxy) {
-						if ($SubItem.Length -gt 0) { $SubItem = $SubItem + " & " } else { $SubItem = "ADFS "}
+						if ($SubItem.Length -gt 0) { $SubItem = $SubItem + " & " } else { $SubItem = "ADFS " }
 						$SubItem = $SubItem + "Proxy"
 					}
 				} Catch { $SubItem = $null }
@@ -142,7 +142,7 @@ function Get-siServerRoleInfo {
 				} Catch { $SubItem = $null }
 				$Abbrev = "DNS"
 				$NickName = $Abbrev
-				if ($SubItem.ToString().Length -gt 0) { $NickName = "$Abbrev ($SubItem)" }
+				if ($null -ne $SubItem) { $NickName = "$Abbrev ($SubItem)" }
 				$all += New-Object -Type psobject -Property @{
 					Role         = $_.DisplayName
 					FeatureName  = $_.Name
@@ -315,7 +315,7 @@ function Get-siServerRoleInfo {
 		if (-not $ADFSFound) {
 			#Test For ADFS 2.0 (not show in the Roles/Features of 2008 R2 [native is 1.1])
 			#We won't do this if we found ADFS in the roles...
-			if (Get-PSSnapin -Registered -ErrorAction SilentlyContinue -Verbose:$false | Where-Object {$_.Name -match "Adfs" }) {
+			if (Get-PSSnapin -Registered -ErrorAction SilentlyContinue -Verbose:$false | Where-Object { $_.Name -match "Adfs" }) {
 				#ADFS snappin is installed
 				#Let's see if we tell if we're Federation or Proxy (or both)
 				Try {
@@ -327,9 +327,9 @@ function Get-siServerRoleInfo {
 						$IsProxy = (get-adfsproxyproperties -ErrorAction Stop).BaseHostName
 					} catch { $IsProxy = $false }
 					$SubItem = ""
-					if ($IsFederation) { $SubItem = "ADFS (" + $IsFederation.Split(".")[0] + ")"}
+					if ($IsFederation) { $SubItem = "ADFS (" + $IsFederation.Split(".")[0] + ")" }
 					if ($IsProxy) {
-						if ($SubItem.Length -gt 0) { $SubItem = $SubItem + " & " } else { $SubItem = "ADFS "}
+						if ($SubItem.Length -gt 0) { $SubItem = $SubItem + " & " } else { $SubItem = "ADFS " }
 						$SubItem = [String] ($SubItem + "Proxy (" + $IsProxy.Split(".")[0] + ")").Trim()
 					}
 					$Abbrev = "ADFS"
