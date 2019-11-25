@@ -7,7 +7,7 @@
 #region Private Variables
 # Current script path
 [string] $ScriptPath = Split-Path (get-variable MyInvocation -scope script).value.MyCommand.Definition -Parent
-if ($Null -ne (Get-Variable MyInvocation -Scope script).Value.Line) { $Quiet = $true }
+if ((Get-Variable MyInvocation -Scope script).Value.Line.Trim().Length -eq 0) { $Quiet = $true }
 #endregion Private Variables
 
 #region Private Helpers
