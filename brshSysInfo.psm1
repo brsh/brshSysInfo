@@ -6,7 +6,8 @@
 
 #region Private Variables
 # Current script path
-[string] $ScriptPath = Split-Path (get-variable myinvocation -scope script).value.Mycommand.Definition -Parent
+[string] $ScriptPath = Split-Path (get-variable MyInvocation -scope script).value.MyCommand.Definition -Parent
+if ($Null -ne (Get-Variable MyInvocation -Scope script).Value.Line) { $Quiet = $true }
 #endregion Private Variables
 
 #region Private Helpers
@@ -17,8 +18,8 @@ Get-ChildItem $ScriptPath/private -Recurse -Filter "*.ps1" -File | ForEach-Objec
 }
 #endregion Load Private Helpers
 
-[string[]] $script:showhelp = @()
-$script:IncludeInSystemReport = @{}
+[string[]] $script:ShowHelp = @()
+$script:IncludeInSystemReport = @{ }
 
 # Dot sourcing public script files
 Get-ChildItem $ScriptPath/public -Recurse -Filter "*.ps1" -File | ForEach-Object {
@@ -26,12 +27,12 @@ Get-ChildItem $ScriptPath/public -Recurse -Filter "*.ps1" -File | ForEach-Object
 
 	# From https://www.the-little-things.net/blog/2015/10/03/powershell-thoughts-on-module-design/
 	# Find all the functions defined no deeper than the first level deep and export it.
-	# This looks ugly but allows us to not keep any uneeded variables from poluting the module.
-	([System.Management.Automation.Language.Parser]::ParseInput((Get-Content -Path $_.FullName -Raw), [ref] $null, [ref] $null)).FindAll( { $args[0] -is [System.Management.Automation.Language.FunctionDefinitionAst] }, $false) | Foreach {
+	# This looks ugly but allows us to not keep any unneeded variables from polluting the module.
+	([System.Management.Automation.Language.Parser]::ParseInput((Get-Content -Path $_.FullName -Raw), [ref] $null, [ref] $null)).FindAll( { $args[0] -is [System.Management.Automation.Language.FunctionDefinitionAst] }, $false) | ForEach-Object {
 		Export-ModuleMember $_.Name
-		$script:showhelp += $_.Name
+		$script:ShowHelp += $_.Name
 		if ($_.Name -match 'Info$') {
-			$script:IncludeInSystemReport.Add($_.Name, @{Enabled = ''; Position = 50})
+			$script:IncludeInSystemReport.Add($_.Name, @{Enabled = ''; Position = 50 })
 		}
 	}
 }
