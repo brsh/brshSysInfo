@@ -285,7 +285,7 @@ function Get-siServerRoleInfo {
 				Try {
 					#Let's see if we can pull the name of the cluster
 					Import-Module FailoverClusters -ErrorAction Stop -Verbose:$false
-					$SubItem = (get-cluster).Name
+					$SubItem = (Get-Cluster -ErrorAction Stop).Name
 				} Catch { $SubItem = $null }
 				$Abbrev = "Cluster"
 				$NickName = $Abbrev
