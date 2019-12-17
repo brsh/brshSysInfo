@@ -270,6 +270,9 @@ function Get-siServerRoleInfo {
 			}
 			if ( ($_.DisplayName -eq 'Windows Internal Database') -or ($_.DisplayName -eq 'Windows-Internal-Database')) {
 				$SubItem = $null
+				try {
+					$SubItem = (Get-siWIDDatabase | Where-Object { ($_.FileType -ne 'ROWS') } | Select-Object DBName | Sort-Object DBName -Unique).DBName
+				} Catch { $SubItem = $null }
 				$Abbrev = "WID"
 				$NickName = $Abbrev
 				$all += New-Object -Type psobject -Property @{
@@ -313,7 +316,7 @@ function Get-siServerRoleInfo {
 		}
 
 		if (-not $ADFSFound) {
-			#Test For ADFS 2.0 (not show in the Roles/Features of 2008 R2 [native is 1.1])
+			#Test For ADFS 2.0 (not shown in the Roles/Features of 2008 R2 [native is 1.1])
 			#We won't do this if we found ADFS in the roles...
 			if (Get-PSSnapin -Registered -ErrorAction SilentlyContinue -Verbose:$false | Where-Object { $_.Name -match "Adfs" }) {
 				#ADFS snappin is installed
