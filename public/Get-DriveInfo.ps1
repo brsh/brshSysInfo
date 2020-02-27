@@ -22,7 +22,7 @@
 		$drives | ForEach-Object {
 			$out = New-Object psobject
 			[string] $label = $_.VolumeName
-			if ($label.Length -eq 0) { $label = "(No Label)"}
+			if ($label.Length -eq 0) { $label = "(No Label)" }
 
 			[bool] $pagefile = $false
 			[bool] $bootdrive = $false
@@ -53,11 +53,31 @@
 				Default { "Unknown" }
 			}
 
-			Add-Member -InputObject $out -MemberType NoteProperty -Name "FreeSpace" -Value $([int] ([math]::Round(($_.FreeSpace / 1GB), 0)))
-			Add-Member -InputObject $out -MemberType NoteProperty -Name "UsedSpace" -Value $([int] ([math]::Round(($_.Size - $_.FreeSpace) / 1GB, 0)))
-			Add-Member -InputObject $out -MemberType NoteProperty -Name "Size" -Value $([int] ($_.Size / 1GB))
-			Add-Member -InputObject $out -MemberType NoteProperty -Name "FreePercent" -Value $([int] (($_.FreeSpace / $_.Size) * 100))
-			Add-Member -InputObject $out -MemberType NoteProperty -Name "UsedPercent" -Value $([int] ((($_.Size - $_.FreeSpace) / $_.Size) * 100))
+			try {
+				Add-Member -InputObject $out -MemberType NoteProperty -Name "FreeSpace" -Value $([int] ([math]::Round(($_.FreeSpace / 1GB), 0)))
+			} catch {
+				Add-Member -InputObject $out -MemberType NoteProperty -Name "FreeSpace" -Value -1
+			}
+			Try {
+				Add-Member -InputObject $out -MemberType NoteProperty -Name "UsedSpace" -Value $([int] ([math]::Round(($_.Size - $_.FreeSpace) / 1GB, 0)))
+			} catch {
+				Add-Member -InputObject $out -MemberType NoteProperty -Name "UsedSpace" -Value -1
+			}
+			try {
+				Add-Member -InputObject $out -MemberType NoteProperty -Name "Size" -Value $([int] ($_.Size / 1GB))
+			} catch {
+				Add-Member -InputObject $out -MemberType NoteProperty -Name "Size" -Value -1
+			}
+			try {
+				Add-Member -InputObject $out -MemberType NoteProperty -Name "FreePercent" -Value $([int] (($_.FreeSpace / $_.Size) * 100))
+			} catch {
+				Add-Member -InputObject $out -MemberType NoteProperty -Name "FreePercent" -Value -1
+			}
+			try {
+				Add-Member -InputObject $out -MemberType NoteProperty -Name "UsedPercent" -Value $([int] ((($_.Size - $_.FreeSpace) / $_.Size) * 100))
+			} catch {
+				Add-Member -InputObject $out -MemberType NoteProperty -Name "UsedPercent" -Value -1
+			}
 			Add-Member -InputObject $out -MemberType NoteProperty -Name "VolumeName" -Value $label
 			Add-Member -InputObject $out -MemberType NoteProperty -Name "Drive" -Value $_.DeviceID
 			Add-Member -InputObject $out -MemberType NoteProperty -Name "FileSystem" -Value $_.FileSystem
