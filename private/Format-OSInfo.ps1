@@ -77,15 +77,15 @@ function Format-siOSInfo {
 	BEGIN {
 		[int] $i = 0
 		[string] $tab = "`t"
-		if ($BGInfo) { $tab = "`t"}
+		if ($BGInfo) { $tab = "`t" }
 	}
 
 	PROCESS {
 		Write-Host "Host Name:${tab}" -NoNewline
 		Write-Host "${HostName}"
 		Write-Host "System Domain:${tab}" -NoNewline
-		if ($HostDomain.ToUpper() -eq $HostDomainNetBIOS.ToUpper()) {
-			Write-Host "${HostDomainNetBIOS}"
+		if (($HostDomain.ToUpper() -eq $HostDomainNetBIOS.ToUpper()) -or ($HostDomainNetBIOS.ToLower() -eq 'undetermined')) {
+			Write-Host "${HostDomain}"
 		} else { Write-Host "${HostDomain} (${HostDomainNetBIOS})" }
 
 		if ($Comment) {
@@ -112,7 +112,7 @@ function Format-siOSInfo {
 		Write-Host "OS Info:${tab}" -NoNewline
 		if ($ServicePack -eq "No Service Pack") {
 			Write-Host "${Caption}, ${OSBitness}, v.${Version}"
-		} else { Write-Host "${Caption}, ${OSBitness}, SP${ServicePack}, v.${Version}"}
+		} else { Write-Host "${Caption}, ${OSBitness}, SP${ServicePack}, v.${Version}" }
 		#Call Get-ServerRoles.ps1
 
 		Write-Host "Install Date:${Tab}" -NoNewline
@@ -133,7 +133,7 @@ function Format-siOSInfo {
 				if ($Model) { Write-Host "${Model}  " -NoNewline }
 			}
 			if ($SerialNumber.Length -lt 13) {
-				if ($SerialNumber) {Write-Host "S/N: ${SerialNumber}" -NoNewline}
+				if ($SerialNumber) { Write-Host "S/N: ${SerialNumber}" -NoNewline }
 			}
 			Write-Host ""
 		}

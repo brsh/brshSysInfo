@@ -15,14 +15,17 @@ function Get-siUserSessionInfo {
 	[CmdletBinding()]
 	param ()
 
-	if (get-command query.exe -ErrorAction silentlycontinue) {
+	if (get-command 'c:\windows\system32\query.exe' -ErrorAction silentlycontinue) {
 		[bool] $DoIt = $true
 		# Run the 'query user' command and catch the output
 		Try {
-			$quserOut = (query.exe user 2>&1)
+			$quserOut = (c:\windows\system32\query.exe user 2>&1)
 			if ($quserOut -match "No user exists") { $DoIt = $false }
 			if ($quserOut.Count -lt 2 ) { $DoIt = $false }
-		} Catch { $DoIt = $false }
+		} Catch {
+			$DoIt = $false
+			Write-Verbose 'Could not run c:\windows\system32\query.exe.'
+		}
 
 		if ($DoIt) {
 			# Create our holder variable
@@ -73,5 +76,7 @@ function Get-siUserSessionInfo {
 			#And output the result
 			$out
 		}
+	} else {
+		Write-Verbose 'Could not find c:\windows\system32\query.exe... weird'
 	}
 }
